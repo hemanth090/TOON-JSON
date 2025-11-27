@@ -81,23 +81,13 @@ def convert_toon_to_json(toon_input):
     except Exception as e:
         raise Exception(f"Error decoding TOON: {str(e)}")
 
-def query_data_with_gemini(data_text, question, data_format="auto"):
+def query_data_with_gemini(data_text, question, data_format):
     """Query and analyze data using Gemini AI"""
     if not gemini_configured:
         return {"error": "Gemini API key not configured"}
     
-    # Detect format if auto
-    original_format = None
-    if data_format == "auto":
-        try:
-            json.loads(data_text)
-            data_format = "JSON"
-            original_format = "JSON"
-        except:
-            data_format = "TOON"
-            original_format = "TOON"
-    else:
-        original_format = data_format
+    # Use the specified format directly
+    original_format = data_format
     
     # Set project name based on input format
     project_name = "json-query" if original_format == "JSON" else "toon-query"
@@ -288,7 +278,7 @@ with tab3:
             
             data_format = st.radio(
                 "Data Format",
-                ["Auto-detect", "JSON", "TOON"],
+                ["JSON", "TOON"],
                 horizontal=True
             )
         
@@ -323,8 +313,7 @@ with tab3:
                 else:
                     with st.spinner("Analyzing with Gemini..."):
                         try:
-                            format_param = "auto" if data_format == "Auto-detect" else data_format
-                            result = query_data_with_gemini(data_input, question, format_param)
+                            result = query_data_with_gemini(data_input, question, data_format)
                             
                             if "error" in result:
                                 st.error(result["error"])
