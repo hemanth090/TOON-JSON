@@ -133,10 +133,6 @@ Queries are automatically logged to separate LangSmith projects:
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-MIT License
-
 ## Author
 
 [Hemanth](https://github.com/hemanth090)
