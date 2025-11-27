@@ -228,18 +228,7 @@ with tab1:
         
         if st.button("Convert to TOON"):
             try:
-                # Use traceable function for LangSmith tracking
                 result = convert_json_to_toon(json_input, indent, delimiter)
-                
-                # Also log locally for backup
-                logger.log_conversion(
-                    project_name="json-to-toon",
-                    input_text=json_input,
-                    output_text=result["output"],
-                    input_tokens=result["json_tokens"],
-                    output_tokens=result["toon_tokens"],
-                    metadata={"indent": indent, "delimiter": delimiter}
-                )
                 
                 st.success(f"Conversion Successful! Saved {result['savings_percent']:.1f}% tokens.")
                 
@@ -264,18 +253,8 @@ with tab2:
     with col2:
         if st.button("Convert to JSON"):
             try:
-                # Use traceable function for LangSmith tracking
                 result = convert_toon_to_json(toon_input)
                 
-                # Also log locally for backup
-                logger.log_conversion(
-                    project_name="toon-to-json",
-                    input_text=toon_input,
-                    output_text=result["output"],
-                    input_tokens=result["toon_tokens"],
-                    output_tokens=result["json_tokens"],
-                    metadata={}
-                )
                 
                 st.success(f"Conversion Successful!")
                 
