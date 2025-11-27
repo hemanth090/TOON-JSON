@@ -60,17 +60,26 @@ def convert_json_to_toon(json_input, indent, delimiter):
 
 def convert_toon_to_json(toon_input):
     """Convert TOON to JSON format with token tracking"""
-    json_output = toon_encoder.decode(toon_input)
-    json_output_str = json.dumps(json_output, indent=2)
-    
-    toon_tokens = count_tokens(toon_input)
-    json_tokens = count_tokens(json_output_str)
-    
-    return {
-        "output": json_output_str,
-        "toon_tokens": toon_tokens,
-        "json_tokens": json_tokens
-    }
+    try:
+        json_output = toon_encoder.decode(toon_input)
+        json_output_str = json.dumps(json_output, indent=2)
+        
+        toon_tokens = count_tokens(toon_input)
+        json_tokens = count_tokens(json_output_str)
+        
+        return {
+            "output": json_output_str,
+            "toon_tokens": toon_tokens,
+            "json_tokens": json_tokens
+        }
+    except NotImplementedError:
+        raise NotImplementedError(
+            "TOON decoder is currently in beta. "
+            "Please use a simpler TOON structure or convert JSON to TOON only. "
+            "Complex nested objects may not be fully supported yet."
+        )
+    except Exception as e:
+        raise Exception(f"Error decoding TOON: {str(e)}")
 
 def query_data_with_gemini(data_text, question, data_format="auto"):
     """Query and analyze data using Gemini AI"""
