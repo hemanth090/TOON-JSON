@@ -1,0 +1,6 @@
+streamlit
+toon_format
+tiktoken
+langsmith
+python-dotenv
+google-generativeai
